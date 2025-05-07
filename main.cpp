@@ -11,9 +11,7 @@
 using namespace cv;
 
 std::set<VideoStream*> stream_set = {
-    new VideoStream("https://iowadotsfs1.us-east-1.skyvdn.com:443/rtplive/ictv03lb/playlist.m3u8"),
-    new VideoStream("https://iowadotsfs2.us-east-1.skyvdn.com:443/rtplive/ictv38lb/playlist.m3u8"),
-    new VideoStream("https://iowadotsfs1.us-east-1.skyvdn.com:443/rtplive/dmtv44qlb/playlist.m3u8")
+    new VideoStream("https://wzmedia.dot.ca.gov/D3/50_24th_St_SAC50_WB.stream/chunklist_w1659799971.m3u8") // https://wzmedia.dot.ca.gov/D3/50_24th_St_SAC50_WB.stream/playlist.m3u8
 };
 
 int main(int argc, char* argv[]) {
@@ -31,6 +29,5 @@ int main(int argc, char* argv[]) {
         cv::waitKey(1);
     }
     
-
     return 0;
 }

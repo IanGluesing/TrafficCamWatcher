@@ -1,6 +1,7 @@
 #include "video_stream.h"
 #include <thread>
 
+using namespace cv;
 
 void VideoStream::start() {
     auto x = std::thread([&](){
@@ -9,20 +10,21 @@ void VideoStream::start() {
             return;
         }
 
-        double fps = 15.0;
+        double fps = cap.get(cv::CAP_PROP_FPS);
         int frame_time_ms = static_cast<int>(1000.0 / fps);
 
-        cv::Ptr<cv::BackgroundSubtractor> pBackSub = cv::createBackgroundSubtractorMOG2();
-        cv::Mat prev_gray, motion_mask, mhi;
-        double MHI_DURATION = 1; // in seconds
-        double timestamp = 0;
-        int frame_count = 0;
+        Ptr<BackgroundSubtractor> pBackSub = createBackgroundSubtractorKNN();
 
         cv::Mat fgMask;
+        cv::Mat input_frame;
         while (true) {
             auto start = std::chrono::high_resolution_clock::now();
 
-            if (!cap.read(current_frame)) break;
+            if (!cap.read(input_frame)) break;
+
+            pBackSub->apply(input_frame, fgMask);
+
+            current_frame = fgMask.clone();
 
             auto end = std::chrono::high_resolution_clock::now();
             auto elapsed_ms = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
@@ -32,7 +34,6 @@ void VideoStream::start() {
             }
 
         }
-
 
         cap.release();
         cv::destroyAllWindows();
