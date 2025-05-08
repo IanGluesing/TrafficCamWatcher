@@ -8,10 +8,13 @@ find_package(OpenCV REQUIRED)
 
 include(cmake/MyBoost.cmake)
 include(cmake/MyWs.cmake)
+include(cmake/MyZmq.cmake)
+include(cmake/MyCppZmq.cmake)
 
 include_directories(
     ${OpenCV_INCLUDE_DIRS}
     ${boost_INCLUDE_DIR}
+    ${CMAKE_CURRENT_SOURCE_DIR}/thirdParty
 )
 
 target_link_libraries(main 
@@ -23,3 +26,5 @@ target_link_libraries(main
 )
 
 add_subdirectory(src)
+add_subdirectory(data_forwarder)
+add_subdirectory(data_handler)
