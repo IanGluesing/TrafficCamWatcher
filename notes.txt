@@ -1,0 +1,4 @@
+bottom_right point: 1160 719
+bottom left wall point: 150, 480
+top right wall: 1220, 230
+top left wall: 1050, 185

@@ -6,7 +6,13 @@ add_executable(main main.cpp)
 
 find_package(OpenCV REQUIRED)
 
-include_directories(${OpenCV_INCLUDE_DIRS})
+include(cmake/MyBoost.cmake)
+include(cmake/MyWs.cmake)
+
+include_directories(
+    ${OpenCV_INCLUDE_DIRS}
+    ${boost_INCLUDE_DIR}
+)
 
 target_link_libraries(main 
     PRIVATE 
