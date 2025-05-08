@@ -19,6 +19,7 @@ target_link_libraries(main
     
     ${OpenCV_LIBS}
     video_stream
+    server_lib
 )
 
 add_subdirectory(src)

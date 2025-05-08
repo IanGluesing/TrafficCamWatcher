@@ -1,3 +1,4 @@
 /build
 /.vscode
 /graphing/env
+.DS_Store

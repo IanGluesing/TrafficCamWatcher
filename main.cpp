@@ -1,24 +1,9 @@
 
 #include <opencv2/opencv.hpp>
-#include <thread>
-#include <chrono>
-#include <opencv2/optflow/motempl.hpp>
-#include <opencv2/opencv.hpp>
 #include <opencv2/tracking.hpp>
 #include <opencv2/core/ocl.hpp>
-#include <iomanip>
 
-#include <websocketpp/config/asio_no_tls.hpp>
-#include <websocketpp/server.hpp>
-
-#include <unistd.h>
-#include <netinet/in.h>
-#include <arpa/inet.h>
-#include <cstring>
-
-typedef websocketpp::server<websocketpp::config::asio> server;
-typedef websocketpp::connection_hdl connection_hdl;
-
+#include "camera_server.h"
 
 #include <set>
 
@@ -29,8 +14,6 @@ using namespace cv;
 std::set<VideoStream*> stream_set = {
     new VideoStream("https://wzmedia.dot.ca.gov/D3/50_24th_St_SAC50_WB.stream/chunklist_w1659799971.m3u8") // https://wzmedia.dot.ca.gov/D3/50_24th_St_SAC50_WB.stream/playlist.m3u8
 };
-
-std::set<connection_hdl, std::owner_less<connection_hdl>> clients;
 
 const double earthRadius = 6378137.0; // in meters (WGS84)
 const double start_lat = 38.560719;
@@ -67,31 +50,7 @@ int main(int argc, char* argv[]) {
         cv::Point2f(0.0, 30.0)
     };
 
-    server ws_server;
-
-    ws_server.init_asio();
-
-    ws_server.set_open_handler([&](connection_hdl hdl) {
-        std::cout << "Client connected" << std::endl;
-        clients.insert(hdl);
-    });
-
-    ws_server.set_close_handler([&](connection_hdl hdl) {
-        std::cout << "Client disconnected" << std::endl;
-        clients.erase(hdl);
-    });
-
-    // Optional: handle messages from clients if you want
-    ws_server.set_message_handler([](connection_hdl, server::message_ptr msg) {
-        std::cout << "Received from browser: " << msg->get_payload() << std::endl;
-    });
-
-    ws_server.listen(8765);
-    ws_server.start_accept();
-
-    std::thread server_thread([&]() {
-        ws_server.run();
-    });
+    camera_server c;
 
     cv::Mat H = cv::findHomography(imagePoints, worldPoints);
 
@@ -165,9 +124,7 @@ int main(int argc, char* argv[]) {
             std::ostringstream ss;
             ss << std::fixed << std::setprecision(10) << "{\"lat\": " << current_lat << "," << "\"lon\": " << current_long << "}";
 
-            for (auto hdl : clients) {
-                ws_server.send(hdl, ss.str(), websocketpp::frame::opcode::text);
-            }
+            c.send(ss);
 
             cv::putText(frame, "Tracking", cv::Point(20, 40),
                         cv::FONT_HERSHEY_SIMPLEX, 1, cv::Scalar(0, 255, 0), 2);
