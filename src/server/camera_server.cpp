@@ -1,7 +1,7 @@
 #include "camera_server.h"
 
-
-camera_server::camera_server() {
+camera_server::camera_server():
+    data_handler("ipc:///tmp/to_camera_server", zmq::socket_type::router) {
     ws_server.init_asio();
 
     ws_server.set_open_handler([&](connection_hdl hdl) {

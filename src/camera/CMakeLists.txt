@@ -1,17 +1,17 @@
-add_library(data_handler
-
-    data_handler.cpp
+add_library(camera_lib
+    
+    camera.cpp
 )
 
 target_include_directories(
-    data_handler
+    camera_lib
         PUBLIC
 
     ${CMAKE_CURRENT_SOURCE_DIR}/
 )
 
-target_link_libraries(
-    data_handler
+target_link_libraries(camera_lib
+
 
     data_forwarder_library
 )

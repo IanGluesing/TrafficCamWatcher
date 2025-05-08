@@ -1,2 +1,2 @@
-add_subdirectory(video_stream)
 add_subdirectory(server)
+add_subdirectory(camera)

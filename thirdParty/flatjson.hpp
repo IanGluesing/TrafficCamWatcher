@@ -14,6 +14,7 @@
 
 #include <limits>
 #include <ostream>
+#include <iostream>
 #include <iterator>
 #include <vector>
 #include <string>
@@ -425,6 +426,8 @@ struct fj_token {
 
             return {};
         }
+
+        std::cout<<type_name()<<std::endl;
 
         throw std::logic_error(__FLATJSON__MAKE_ERROR_MESSAGE("not STRING/NUMBER/BOOL/NULL type"));
     }

@@ -1,0 +1,2 @@
+add_subdirectory(camera_server)
+add_subdirectory(camera_instance)
