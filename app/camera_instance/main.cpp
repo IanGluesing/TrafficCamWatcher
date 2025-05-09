@@ -6,19 +6,19 @@ const double start_long = -91.638302;
 
 int main() {
     std::vector<cv::Point2f> imagePoints = {
-        cv::Point2f(78, 40),
-        cv::Point2f(125, 40),
-        cv::Point2f(480, 120),
-        cv::Point2f(480, 210),
-        cv::Point2f(125, 200)
+        cv::Point2f(0, 125),
+        cv::Point2f(265, 55),
+        cv::Point2f(355, 52),
+        cv::Point2f(300, 270),
+        cv::Point2f(0, 270)
     };
 
     std::vector<cv::Point2f> worldPoints = {
         cv::Point2f(0.0, 0.0),
-        cv::Point2f(35.0,0),
-        cv::Point2f(35.0, 150),
-        cv::Point2f(17.5, 160),
-        cv::Point2f(0, 150)
+        cv::Point2f(150.0,0),
+        cv::Point2f(180, 35),
+        cv::Point2f(-10, 35),
+        cv::Point2f(-15, 20)
     };
 
     Camera cam(
@@ -27,8 +27,8 @@ int main() {
         start_long,
         imagePoints,
         worldPoints,
-        150,
-        5
+        42,
+        8
     );
 
     cam.start_thread();
