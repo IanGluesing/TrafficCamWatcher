@@ -1,8 +1,8 @@
 // Camera positions
-var lat = 38.560719;
-var lon = -121.480659;
+var lat = 41.693802;
+var lon = -91.638302;
 
-var map = L.map('map').setView([lat, lon], 25);
+var map = L.map('map').setView([lat, lon], 15);
 
 L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
 

@@ -4,11 +4,6 @@
 #include "data_forwarder.h"
 
 const double earthRadius = 6378137.0; // in meters (WGS84)
-const double start_lat = 38.560719;
-const double start_long = -121.480659;
-
-double current_lat = start_lat;
-double current_long = start_long;
 
 void rotate_point(double& x, double& y, float theta_degrees) {
     // Convert the angle from degrees to radians
@@ -56,7 +51,7 @@ void Camera::start_thread() {
         cv::Mat H = cv::findHomography(imagePoints, worldPoints);
 
         cv::ocl::setUseOpenCL(true);
-        cv::VideoCapture cap("https://wzmedia.dot.ca.gov/D3/50_24th_St_SAC50_WB.stream/playlist.m3u8");  // Use "video.mp4" for video file
+        cv::VideoCapture cap(url); 
         if (!cap.isOpened()) {
             std::cerr << "Error opening video stream" << std::endl;
             return;
@@ -65,6 +60,10 @@ void Camera::start_thread() {
         // Read first frame
         cv::Mat frame;
         cap.read(frame);
+
+        for(const auto& image_point: imagePoints) {
+            cv::circle(frame, image_point, 2, cv::Scalar(0, 255, 0), -1);
+        }
 
         cv::Rect2d bbox = cv::selectROI("Select Object", frame, false, false);
         cv::destroyWindow("Select Object");
@@ -96,15 +95,15 @@ void Camera::start_thread() {
                 cv::perspectiveTransform(objectInImage, objectInWorld, H);
 
                 std::cout << "Real-world position: " 
-                        << objectInWorld[0].x + 10 << ", " 
-                        << 30 - objectInWorld[0].y << std::endl;
+                        << objectInWorld[0].x + relative_x << ", " 
+                        << relative_y - objectInWorld[0].y << std::endl;
 
-                double deltaLat = ((30 - objectInWorld[0].y) / earthRadius) * (180.0 / CV_PI);
-                double deltaLon = ((objectInWorld[0].x + 10) / (earthRadius * cos(current_lat * CV_PI / 180.0))) * (180.0 / CV_PI);
+                double deltaLat = ((relative_y - objectInWorld[0].y) / earthRadius) * (180.0 / CV_PI);
+                double deltaLon = ((objectInWorld[0].x + relative_x) / (earthRadius * cos(camera_lattitude * CV_PI / 180.0))) * (180.0 / CV_PI);
 
-                rotate_point(deltaLon, deltaLat, 170);
-                current_lat = start_lat + deltaLat;
-                current_long = start_long + deltaLon;
+                rotate_point(deltaLon, deltaLat, 30);
+                double current_lat = camera_lattitude + deltaLat;
+                double current_long = camera_longitude + deltaLon;
 
                 std::cout << "Real-world position: " 
                         << std::fixed << std::setprecision(15)
@@ -123,6 +122,11 @@ void Camera::start_thread() {
                 cv::putText(frame, "Lost Tracking", cv::Point(20, 40),
                             cv::FONT_HERSHEY_SIMPLEX, 1, cv::Scalar(0, 0, 255), 2);
             }
+
+            cv::imshow("Tracking", frame);
+
+            // Break loop on ESC key
+            if (cv::waitKey(1) == 27) break;
 
             auto end = std::chrono::high_resolution_clock::now();
             auto elapsed_ms = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
