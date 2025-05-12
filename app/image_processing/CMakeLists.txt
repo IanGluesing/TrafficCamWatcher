@@ -7,4 +7,5 @@ target_link_libraries(${program_name}
     
     ${OpenCV_LIBS}
     image_processing_lib
+    camera_lib
 )

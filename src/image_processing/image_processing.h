@@ -9,15 +9,17 @@
 class image_processing: public data_handler {
     public:
 
-        image_processing();
+        image_processing(Video_Camera* camera_to_process);
 
         ~image_processing();
+
+        virtual void start() override;
 
         inline void process_msg(const zmq::message_t& identity, const zmq::message_t& payload) override;
 
     private:
 
         data_forwarder df;
+        Video_Camera* camera_to_process;
         int received_frame_count;
-        std::unordered_map<std::string, Video_Camera*> camera_url_to_camera_info_map;
 };

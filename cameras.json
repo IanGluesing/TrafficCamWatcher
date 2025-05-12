@@ -4,44 +4,21 @@
       "camera_lattitude": 41.693802,
       "camera_longitude": -91.638302,
       "image_points": [
-        [0, 125],
-        [265, 55],
-        [355, 52],
-        [300, 270],
-        [0, 270]
+        [80, 40],
+        [120, 40],
+        [480, 120],
+        [480, 230],
+        [150, 270]
       ],
       "world_points": [
         [0, 0],
-        [150, 0],
-        [180, 35],
-        [-10.0, 35],
-        [-15, 20]
+        [35, 0],
+        [35, 300],
+        [17.5, 320],
+        [0, 300]
       ],
-      "camera_y_position_wrt_0_0": 42,
-      "camera_x_position_wrt_0_0": -8,
-      "camera_rotation": -65
-    },
-
-    {
-        "camera_url": "https://wzmedia.dot.ca.gov/D3/50_24th_St_SAC50_WB.stream/playlist.m3u8",
-        "camera_lattitude": 41.693802,
-        "camera_longitude": -91.638302,
-        "image_points": [
-          [0, 125],
-          [265, 55],
-          [355, 52],
-          [300, 270],
-          [0, 270]
-        ],
-        "world_points": [
-          [0, 0],
-          [150, 0],
-          [180, 35],
-          [-10.0, 35],
-          [-15, 20]
-        ],
-        "camera_y_position_wrt_0_0": 42,
-        "camera_x_position_wrt_0_0": -8,
-        "camera_rotation": -65
-      }
+      "camera_y_position_wrt_0_0": 340,
+      "camera_x_position_wrt_0_0": 0,
+      "camera_rotation": 30
+    }
 ]
