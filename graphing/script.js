@@ -1,4 +1,4 @@
-// Camera positions
+// Video_Camera positions
 var lat = 41.693802;
 var lon = -91.638302;
 

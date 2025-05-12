@@ -14,4 +14,5 @@ target_link_libraries(image_processing_lib
 
     data_handler
     data_forwarder_library
+    camera_lib
 )
