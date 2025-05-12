@@ -7,6 +7,7 @@
 #include <websocketpp/server.hpp>
 
 #include "data_handler.h"
+#include "flatjson.hpp"
 
 typedef websocketpp::server<websocketpp::config::asio> server;
 typedef websocketpp::connection_hdl connection_hdl;
@@ -20,7 +21,8 @@ class camera_server: public data_handler {
 
         void send(const std::ostringstream& ss);
 
-        inline void process_msg(const flatjson::fjson& json_obj) override {
+        inline void process_msg(const zmq::message_t& identity, const zmq::message_t& payload) override {
+            flatjson::fjson json_obj(payload.data<char>(), payload.size());
             for (auto hdl : clients) {
                 ws_server.send(hdl, json_obj.dump(), websocketpp::frame::opcode::text);
             }

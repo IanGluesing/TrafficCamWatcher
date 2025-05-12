@@ -59,7 +59,8 @@ Camera::~Camera() {
 void Camera::start_thread() {
 
     // this->camera_thread = std::thread([&](){ 
-        data_forwarder df = data_forwarder("ipc:///tmp/to_camera_server", zmq::socket_type::dealer);
+        data_forwarder df = data_forwarder("ipc:///tmp/to_image_processing", zmq::socket_type::dealer);
+        df.get_socket().set(zmq::sockopt::routing_id, "CAMERA_1");
         df.connect();
 
         cv::Mat H = cv::findHomography(imagePoints, worldPoints);
@@ -71,15 +72,13 @@ void Camera::start_thread() {
             return;
         }
 
-
         double fps = cap.get(cv::CAP_PROP_FPS);
         int frame_time_ms = static_cast<int>(1000.0 / fps);
 
 
         cv::Ptr<cv::BackgroundSubtractor> bgSubtractor = cv::createBackgroundSubtractorMOG2();
-    cv::Mat frame, fgMask;
-    cap >> frame;
-
+        cv::Mat frame, fgMask;
+        cap >> frame;
 
         // for(const auto& image_point: imagePoints) {
         //     cv::circle(frame, image_point, 2, cv::Scalar(0, 255, 0), -1);
@@ -98,6 +97,33 @@ void Camera::start_thread() {
 
         cap >> frame;
         if (frame.empty()) break;
+
+        std::ostringstream ss2;
+        size_t size = frame.total() * frame.elemSize();
+        std::vector<uchar> buffer;
+        cv::imencode(".png", frame, buffer);
+        ss2 << "{"
+            << "\"rows\": \"" << frame.rows << "\", " 
+            << "\"cols\": \"" << frame.cols << "\", "
+            << "\"data\": \"" << buffer.data() << "\""
+            << "}";
+
+        // std::string topic_message("CAMERA_1");
+        // zmq::message_t topic(topic_message.data(), topic_message.size());
+        // df.send_message(topic, zmq::send_flags::sndmore);
+
+        std::cout<<"sending: "<<ss2.str()<<std::endl;
+        df.send_message(buffer.data(), buffer.size());
+        std::cout<<++count<<std::endl;
+
+        auto end = std::chrono::high_resolution_clock::now();
+        auto elapsed_ms = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
+
+        if (elapsed_ms < frame_time_ms) {
+            std::this_thread::sleep_for(std::chrono::milliseconds(frame_time_ms - elapsed_ms));
+        }
+
+        continue;
 
         if (!initialized || ((count+1) % 5 == 0)) {
             if (((count+1) % 10) == 0) {
@@ -184,12 +210,12 @@ void Camera::start_thread() {
         cv::imshow("CSRT Tracking", frame);
         if (cv::waitKey(30) == 27) break;
 
-        auto end = std::chrono::high_resolution_clock::now();
-            auto elapsed_ms = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
+        // auto end = std::chrono::high_resolution_clock::now();
+        // auto elapsed_ms = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
 
-            if (elapsed_ms < frame_time_ms) {
-                std::this_thread::sleep_for(std::chrono::milliseconds(frame_time_ms - elapsed_ms));
-            }
+        // if (elapsed_ms < frame_time_ms) {
+        //     std::this_thread::sleep_for(std::chrono::milliseconds(frame_time_ms - elapsed_ms));
+        // }
 
     }
 

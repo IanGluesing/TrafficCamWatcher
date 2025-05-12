@@ -10,7 +10,7 @@ public:
         const char* receive_data_location,
         zmq::socket_type receive_data_type);
 
-    virtual inline void process_msg(const flatjson::fjson&) = 0;
+    virtual inline void process_msg(const zmq::message_t& identity, const zmq::message_t& payload) = 0;
 
     virtual void start();
 

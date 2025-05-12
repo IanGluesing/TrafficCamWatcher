@@ -30,7 +30,7 @@ void data_handler::start() {
         zmq::message_t identity;
         zmq::message_t payload;
 
-        receive_data.receive(identity); // ignore identity
+        receive_data.receive(identity);
         receive_data.receive(payload);
 
         // Get start time for processing current frame
@@ -38,14 +38,11 @@ void data_handler::start() {
 
         // std::cout<<payload.to_string()<<std::endl;
 
-        // Convert input string to parsable json
-        flatjson::fjson json_obj(payload.data<char>(), payload.size());
-
-        process_msg(json_obj);
+        process_msg(identity, payload);
 
         // End statistics
         auto end = std::chrono::high_resolution_clock::now();
         auto processing_time = std::chrono::duration_cast<std::chrono::microseconds>(end - start).count();
-        std::cout << "Processing time: " << processing_time << " µs" << std::endl;
+        // std::cout << "Processing time: " << processing_time << " µs" << std::endl;
     }
 }

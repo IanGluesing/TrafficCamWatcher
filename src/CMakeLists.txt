@@ -1,2 +1,3 @@
 add_subdirectory(server)
 add_subdirectory(camera)
+add_subdirectory(image_processing)

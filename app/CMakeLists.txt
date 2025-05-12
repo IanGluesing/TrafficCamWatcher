@@ -1,3 +1,4 @@
 add_subdirectory(camera_server)
 add_subdirectory(camera_instance)
 add_subdirectory(camera_point_utility)
+add_subdirectory(image_processing)
