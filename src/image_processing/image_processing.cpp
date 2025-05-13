@@ -138,7 +138,11 @@ void image_processing::start() {
 
         // Send reset frame for now
         std::ostringstream ss;
-        ss << std::fixed << std::setprecision(10) << "{\"lat\": \"" << "0" << "\", " << "\"lon\": \"" << "0" << "\"}";
+        ss << std::fixed << std::setprecision(10) 
+            << "{\"lat\": \"" << "0" << "\", " 
+            << "\"lon\": \"" << "0" << "\", " 
+            << "\"camera_name\": \"" << camera_to_process->get_url()
+            << "\"}";
         df.send_message(ss.str().c_str(), ss.str().size());
 
         // Draw updated boxes
@@ -161,7 +165,11 @@ void image_processing::start() {
             double current_long = camera_to_process->get_camera_longitude() + deltaLon;
 
             std::ostringstream ss;
-            ss << std::fixed << std::setprecision(10) << "{\"lat\": \"" << current_lat << "\", " << "\"lon\": \"" << current_long << "\"}";
+            ss << std::fixed << std::setprecision(10) 
+                << "{\"lat\": \"" << current_lat << "\", " 
+                << "\"lon\": \"" << current_long << "\", " 
+                << "\"camera_name\": \"" << camera_to_process->get_url()
+                << "\"}";
             df.send_message(ss.str().c_str(), ss.str().size());
         }
 
