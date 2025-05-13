@@ -1,6 +1,5 @@
 # TrafficCamWatcher
 
+Vehicle Localization using Visual Odometry
 
-cam_stream.cpp -o cam_stream `pkg-config --cflags --libs opencv4` -std=c++11
-
-ffmpeg -ss 00:00:00.000 -i example_recording.mov -pix_fmt rgb24 -r 10 -s 320x240 -t 00:01:00.000 output.gif
+![Demo](https://github.com/IanGluesing/TrafficCamWatcher/blob/main/example_output/single_camera_example.gif)

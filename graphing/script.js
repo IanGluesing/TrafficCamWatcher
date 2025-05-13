@@ -38,6 +38,7 @@ socket.onmessage = function(event) {
     return;
   }
 
+  // If a markerGroup for this camera has not been added, add one
   if (!cameraMarkers.has(data.camera_name)) {
     cameraMarkers.set(data.camera_name, L.layerGroup().addTo(map));
   }
