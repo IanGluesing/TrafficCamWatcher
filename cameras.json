@@ -23,25 +23,25 @@
     },
 
     {
-        "camera_url": "https://iowadotsfs2.us-east-1.skyvdn.com:443/rtplive/ictv39lb/playlist.m3u8",
-        "camera_lattitude": 41.695207,
-        "camera_longitude": -91.636325,
+        "camera_url": "https://iowadotsfs1.us-east-1.skyvdn.com:443/rtplive/ictv40lb/playlist.m3u8",
+        "camera_lattitude": 41.694427,
+        "camera_longitude": -91.618864,
         "image_points": [
-          [74, 80],
-          [200, 72],
-          [480, 180],
-          [480, 240],
-          [262, 270]
+          [105, 56],
+          [138, 51],
+          [480, 140],
+          [480, 225],
+          [190, 270]
         ],
         "world_points": [
           [0, 0],
           [46, 0],
           [46, 800],
           [20, 800],
-          [-20, 800]
+          [0, 800]
         ],
-        "camera_y_position_wrt_0_0": 1800,
-        "camera_x_position_wrt_0_0": -60,
+        "camera_y_position_wrt_0_0": 840,
+        "camera_x_position_wrt_0_0": 0,
         "camera_rotation": -90
       }
 ]

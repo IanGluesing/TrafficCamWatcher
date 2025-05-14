@@ -10,7 +10,7 @@ void onMouse(int event, int x, int y, int, void*) {
 
 int main() {
 
-    cv::VideoCapture cap("https://iowadotsfs2.us-east-1.skyvdn.com:443/rtplive/ictv39lb/playlist.m3u8"); 
+    cv::VideoCapture cap("https://iowadotsfs1.us-east-1.skyvdn.com:443/rtplive/ictv40lb/playlist.m3u8"); 
     if (!cap.isOpened()) {
         std::cerr << "Error opening video stream" << std::endl;
         return 0;

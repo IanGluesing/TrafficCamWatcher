@@ -67,7 +67,6 @@ inline void image_processing::process_msg(
 }
 
 void image_processing::start() {
-    // ADD THREAD HERE
     cv::Mat H = cv::findHomography(camera_to_process->get_camera_image_points(), camera_to_process->get_camera_world_points());
     cv::ocl::setUseOpenCL(true);
     cv::Ptr<cv::BackgroundSubtractor> bgSubtractor = cv::createBackgroundSubtractorMOG2();
@@ -173,8 +172,7 @@ void image_processing::start() {
             df.send_message(ss.str().c_str(), ss.str().size());
         }
 
-        // cv::imshow("test", frame);
-        // if (cv::waitKey(30) == 27) break;
+        display_frame = frame.clone();
 
         // End statistics
         auto end = std::chrono::high_resolution_clock::now();

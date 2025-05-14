@@ -1,4 +1,4 @@
-// Video_Camera positions
+// Default camera starting position
 var lat = 41.693802;
 var lon = -91.638302;
 
@@ -42,6 +42,11 @@ socket.onmessage = function(event) {
   if (!cameraMarkers.has(data.camera_name)) {
     cameraMarkers.set(data.camera_name, L.layerGroup().addTo(map));
   }
+
+  // Uncomment to draw a line from the position of the camera to the car on the map
+  // var camera_position = L.latLng(camera_lattitude, camera_longitude);
+  // var motion_position = L.latLng(data.lat, data.lon);
+  // L.polyline([pointA, pointB], {color: 'blue'}).addTo(cameraMarkers.get(data.camera_name));
   
   // Update marker position
   L.marker([data.lat, data.lon]).addTo(cameraMarkers.get(data.camera_name));
