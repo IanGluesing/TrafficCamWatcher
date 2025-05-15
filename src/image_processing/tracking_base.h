@@ -1,21 +1,15 @@
 #pragma once
 
-#include <unordered_map>
-
 #include "data_handler.h"
 #include "data_forwarder.h"
 #include "camera.h"
 
-class image_processing: public data_handler {
+class base_image_tracker: public data_handler {
     public:
 
-        image_processing(Video_Camera* camera_to_process);
+        base_image_tracker(Video_Camera* camera_to_process);
 
-        ~image_processing();
-
-        virtual void start() override;
-
-        inline void process_msg(const zmq::message_t& identity, const zmq::message_t& payload) override;
+        virtual ~base_image_tracker() = default;
 
         cv::Mat get_current_frame() {
             return display_frame;
@@ -25,7 +19,9 @@ class image_processing: public data_handler {
             return camera_to_process->get_url();
         }
 
-    private:
+    protected:
+
+        void send_lat_long_pair(const double& point_lattitude, const double& point_longitude);
 
         data_forwarder df;
         Video_Camera* camera_to_process;
