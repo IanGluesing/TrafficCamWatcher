@@ -1,8 +1,5 @@
 #include "image_processing.h"
 
-
-#include <opencv2/core/ocl.hpp>
-
 #include <opencv2/core/utility.hpp>
 #include <opencv2/tracking.hpp>
 #include <opencv2/videoio.hpp>
@@ -12,9 +9,6 @@
 
 image_processing::image_processing(Video_Camera* camera_to_process) :
     base_image_tracker(camera_to_process) {
-
-    calculated_homography = cv::findHomography(camera_to_process->get_camera_image_points(), camera_to_process->get_camera_world_points());
-    cv::ocl::setUseOpenCL(true);
 
     background_subtractor = cv::createBackgroundSubtractorMOG2();
 

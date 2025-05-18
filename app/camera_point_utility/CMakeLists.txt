@@ -6,4 +6,5 @@ target_link_libraries(${program_name}
     PRIVATE 
     
     ${OpenCV_LIBS}
+    image_processing_lib
 )

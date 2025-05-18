@@ -1,0 +1,1 @@
+Implementation of a non-maximum suppresion algorithm. This can be used as-is, the tracking between frames is not as robust as when using an OpenCV MultiTracker. This can however support a larger number of moving objects without suffering fps loss.

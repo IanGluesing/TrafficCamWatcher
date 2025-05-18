@@ -15,9 +15,6 @@ class image_processing: public base_image_tracker {
         inline void process_msg(const zmq::message_t& identity, const zmq::message_t& payload) override;
     
     private:
-
-        // Homography matrix between points in the image, and estimated points in the real world
-        cv::Mat calculated_homography;
         
         cv::Ptr<cv::BackgroundSubtractor> background_subtractor;
 

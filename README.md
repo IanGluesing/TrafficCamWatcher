@@ -16,3 +16,10 @@ Currently supports Real-Time 15fps camera stream and up to 10 seperately tracked
 Can configure multiple cameras based on the cameras.json file. Testing up to this point has shown the performance bottleneck is within each camera, and depends on how backed up any stream may be given how many objects are currently being tracked
 
 ![Demo](https://github.com/IanGluesing/TrafficCamWatcher/blob/main/example_output/multi_cam_output.gif)
+
+
+# Non-Maximum Suppresion
+
+Combine with NMS algorithm to reduce overlapping bounding boxes
+
+![Demo](https://github.com/IanGluesing/TrafficCamWatcher/blob/main/example_output/nms_implementation.gif)
